@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Intercambio de Información Web</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; margin-top: 50px; background-color: #f3f4f6; }
+        .contenedor { background-color: white; padding: 40px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); display: inline-block; width: 70%; }
+        button { padding: 15px 30px; font-size: 18px; cursor: pointer; background-color: #0078D7; color: white; border: none; border-radius: 5px; font-weight: bold; transition: 0.3s; margin: 5px; }
+        button:hover { background-color: #005A9E; }
+        
+        /* Estilo para nuestro nuevo botón de descarga */
+        .btn-descarga { background-color: #10b981; display: none; }
+        .btn-descarga:hover { background-color: #059669; }
+
+        #resultado { margin-top: 30px; padding: 20px; border: 1px solid #d1d5db; display: none; text-align: left; background-color: #f9fafb; border-radius: 5px; }
+        pre { white-space: pre-wrap; word-wrap: break-word; color: #b91c1c; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="contenedor">
+        <h1>📊 Sistema de Reportes (Cliente)</h1>
+        <p>Al hacer clic en el botón, esta página web se conectará con el Servidor (C#) y extraerá los datos de SQL Server.</p>
+        
+        <button onclick="pedirReporteAlServidor()">1. Generar Documento XML</button>
+        
+        <button id="btnDescargar" class="btn-descarga" onclick="descargarArchivoXML()">📥 2. Descargar XML a mi PC</button>
+        
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        // ¡RECUERDA! Verifica que el puerto (5123) sea el tuyo
+        const urlDelServidor = 'http://localhost:5037/reporte';
+        
+        // Variable para guardar el XML en la memoria y poder descargarlo después
+        let xmlGuardadoEnMemoria = "";
+
+        async function pedirReporteAlServidor() {
+            try {
+                const respuesta = await fetch(urlDelServidor);
+                
+                if (respuesta.ok) {
+                    xmlGuardadoEnMemoria = await respuesta.text();
+                    
+                    const divResultado = document.getElementById('resultado');
+                    divResultado.style.display = 'block';
+                    divResultado.innerHTML = `
+                        <h2 style="color: #15803d;">✅ ¡Conexión Exitosa!</h2>
+                        <p>Los datos llegaron correctamente. Ahora puedes descargar el archivo a tu computadora.</p>
+                        <hr>
+                        <h3>Vista previa:</h3>
+                        <pre><code>${xmlGuardadoEnMemoria.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>
+                    `;
+
+                    // ¡Hacemos que aparezca el botón verde de descarga!
+                    document.getElementById('btnDescargar').style.display = 'inline-block';
+                } else {
+                    alert('Error: El servidor respondió pero hubo un problema.');
+                }
+            } catch (error) {
+                alert('Error de conexión. ¿El servidor en VS Code está encendido?');
+                console.error(error);
+            }
+        }
+
+        // --- ¡LA NUEVA MAGIA DE DESCARGA! ---
+        function descargarArchivoXML() {
+            // 1. Convertimos el texto XML en un archivo de datos tipo "Blob"
+            const archivoBlob = new Blob([xmlGuardadoEnMemoria], { type: 'application/xml' });
+            
+            // 2. Creamos un enlace invisible
+            const enlaceInvisible = document.createElement('a');
+            
+            // 3. Le decimos al enlace que apunte a nuestro archivo
+            enlaceInvisible.href = URL.createObjectURL(archivoBlob);
+            
+            // 4. Le ponemos el nombre con el que queremos que se guarde
+            enlaceInvisible.download = 'Reporte_Final.xml';
+            
+            // 5. Simulamos que el usuario le hace clic al enlace
+            enlaceInvisible.click();
+            
+            // 6. Limpiamos la memoria
+            URL.revokeObjectURL(enlaceInvisible.href);
+        }
+    </script>
+</body>
+</html>

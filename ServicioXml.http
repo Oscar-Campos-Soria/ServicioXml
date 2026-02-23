@@ -1,0 +1,6 @@
+@ServicioXml_HostAddress = http://localhost:5037
+
+GET {{ServicioXml_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

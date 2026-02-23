@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ReporteProductos FechaGeneracion="2026-02-22 18:04:33">
+  <Producto>
+    <Id>1</Id>
+    <Nombre>Laptop Pro 15</Nombre>
+    <Categoria>Electrónica</Categoria>
+    <Precio>25000.00</Precio>
+    <Stock>10</Stock>
+  </Producto>
+  <Producto>
+    <Id>2</Id>
+    <Nombre>Mouse Inalámbrico</Nombre>
+    <Categoria>Accesorios</Categoria>
+    <Precio>350.50</Precio>
+    <Stock>50</Stock>
+  </Producto>
+  <Producto>
+    <Id>3</Id>
+    <Nombre>Monitor 27 pulgadas</Nombre>
+    <Categoria>Electrónica</Categoria>
+    <Precio>4500.00</Precio>
+    <Stock>15</Stock>
+  </Producto>
+  <Producto>
+    <Id>4</Id>
+    <Nombre>Teclado Mecánico</Nombre>
+    <Categoria>Accesorios</Categoria>
+    <Precio>1200.00</Precio>
+    <Stock>30</Stock>
+  </Producto>
+  <Producto>
+    <Id>5</Id>
+    <Nombre>Silla Ergonómica</Nombre>
+    <Categoria>Mobiliario</Categoria>
+    <Precio>3200.00</Precio>
+    <Stock>5</Stock>
+  </Producto>
+</ReporteProductos>
